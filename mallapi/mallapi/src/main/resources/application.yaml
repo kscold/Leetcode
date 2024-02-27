@@ -1,14 +1,19 @@
-spring: # ??? ??? ??
+spring: # 데이터베이스 설정 h2 의존성이 없으므로 이 설정 없이 run하면 오류
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/malldb
-    username: malldbuser
-    password: malldbuser
+    url: jdbc:mariadb://localhost:3306/apidb
+    username: apidbuser
+    password: apidbuser
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # 변경사항을 자동으로 업데이트
     properties:
       hibernate:
-        format_sql: true
-    show-sql: true
+        format_sql: true # sql문을 포맷팅해서 보여줌
+    show-sql: true # sql문이 실행되는 것을 눈으로 보여줌
+
+logging:
+  level:
+    com:
+      zaxxer: trace # 커넥션 풀까지 확인할 수 있도록 레벨을 지정
