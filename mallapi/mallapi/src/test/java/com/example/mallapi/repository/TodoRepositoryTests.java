@@ -4,6 +4,7 @@ package com.example.mallapi.repository;
 import com.example.mallapi.domain.Todo;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,11 @@ public class TodoRepositoryTests {
 
     @Autowired // 주입을 받기 위해 명시
     private TodoRepository todoRepository;
+
+//    @BeforeEach
+//    void clean() {
+//        todoRepository.deleteAll();
+//    }
 
     @Test
     public void test1() {
@@ -80,12 +86,17 @@ public class TodoRepositoryTests {
     @Test
     public void testPaging() {
         // 페이지 번호는 0부터
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("tno").descending()); // id를 내림차순으로 정렬
+        Pageable pageable = PageRequest.of(0, 101, Sort.by("tno").descending()); // id를 내림차순으로 정렬
 
         Page<Todo> result = todoRepository.findAll(pageable);
 
         log.info(result.getTotalElements()); // 선택한 필드하나의 모든 테이터를 보여줌
 
         log.info(result.getContent()); // 선택한 필드 모든 데이터를 보여줌
+    }
+
+    @Test
+    public void testSearch1() {
+        todoRepository.search1();
     }
 }

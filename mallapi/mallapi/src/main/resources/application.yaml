@@ -13,7 +13,14 @@ spring: # 데이터베이스 설정 h2 의존성이 없으므로 이 설정 없�
         format_sql: true # sql문을 포맷팅해서 보여줌
     show-sql: true # sql문이 실행되는 것을 눈으로 보여줌
 
+
+
 logging:
   level:
     com:
       zaxxer: info # 커넥션 풀까지 확인할 수 있도록 레벨을 지정
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
