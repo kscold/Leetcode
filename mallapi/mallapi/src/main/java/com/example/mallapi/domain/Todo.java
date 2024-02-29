@@ -22,6 +22,12 @@ public class Todo {
     @Column(length = 500, nullable = false) // 필드마다 설정을 하기 위해
     private String title;
 
+    private String content;
+
+    private boolean complete;
+
+    private LocalDate dueDate;
+
     public void changeTitle(String title) {
         this.title = title;
     }
@@ -37,8 +43,4 @@ public class Todo {
     public void changeDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
-
-    private String content;
-    private boolean complete;
-    private LocalDate dueDate;
 }
