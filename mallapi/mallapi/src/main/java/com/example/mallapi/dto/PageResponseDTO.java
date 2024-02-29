@@ -1,0 +1,50 @@
+package com.example.mallapi.dto;
+
+import lombok.Data;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+@Data
+public class PageResponseDTO<E> {
+
+    private List<E> dtoList;
+
+    private List<Integer> pageNumList;
+
+    private PageRequestDTO pageRequestDTO; // builder 생성자를 통해 인스턴스 생성
+
+    private boolean prev, next;
+
+    private int totalCount, prevPage, nextPage, totalPage, current;
+
+    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
+        this.dtoList = dtoList;
+        this.pageRequestDTO = pageRequestDTO;
+        this.totalCount = (int) total;
+
+        // 끝페이지 end 값 구하기
+        int end = (int) (Math.ceil(pageRequestDTO.getPage() / 10.0)) * 10;
+
+        int start = end - 9;
+
+        // 정말 페이지의 남은 데이터 구하기
+        int last = (int) (Math.ceil(totalCount / (double) pageRequestDTO.getSize()));
+
+        end = end > last ? last : end; // end가 last 보다 크면 last가 정말 마지막 값이므로 last가 되고 아니라면 end가 됨
+
+        this.prev = start > 1; // boolean 값 시작 페이징이 1 페이징보다 크면
+
+        // 다음으로 가는 링크 계산하기 위한 변수 선언
+        this.next = totalCount > end * pageRequestDTO.getSize();
+
+        this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList()); // int[] -> List<Integer> 로 변환
+
+        this.prevPage = prev ? start - 1 : 0; // 2 페이징 이상이면, 하나 전 페이징으로 감소 이하면 0 페이지으로 설정
+
+        this.nextPage = prev ? end + 1 : 0; // 2 페이징 이상히면, 앞의 페이징으로 증가 이하면 0 페이지로 설정
+
+    }
+
+}

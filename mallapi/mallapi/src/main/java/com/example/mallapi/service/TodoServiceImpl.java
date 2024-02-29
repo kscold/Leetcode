@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @Log4j2
 @RequiredArgsConstructor // 생성자 주입
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
@@ -24,5 +24,35 @@ public class TodoServiceImpl implements TodoService{
 
         return entityToDTO(todo); // 엔티티로 변환
     }
+
+    @Override
+    public Long register(TodoDTO dto) {
+        Todo todo = dtoToEntity(dto); // 엔티티로 벼환
+        Todo result = todoRepository.save(todo); // 데이터를 저장
+
+        return result.getTno(); // Tno id를 반환
+    }
+
+    @Override
+    public void modify(TodoDTO dto) {
+
+        Optional<Todo> result = todoRepository.findById(dto.getTno());
+
+        Todo todo = result.orElseThrow();
+
+        // setter들임
+        todo.changeContent(dto.getContent());
+        todo.changeComplete(dto.isComplete()); // boolean 값이기 때문에 isComplete()로 생성됨
+        todo.changeDueDate(dto.getDueDate());
+
+        todoRepository.save(todo);
+
+    }
+
+    @Override
+    public void remove(Long tno) {
+        todoRepository.deleteById(tno);
+    }
+
 
 }

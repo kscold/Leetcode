@@ -8,8 +8,14 @@ import jakarta.transaction.Transactional;
 public interface TodoService {
     TodoDTO get(Long tno);
 
+    Long register(TodoDTO dto);
+
+    void modify(TodoDTO dto);
+
+    void remove(Long tno);
+
     // 자바 8 이상의 default 메서드를 통해 엔터페이스에 로직을 선언
-    default TodoDTO entityToDTO(Todo todo) {
+    default TodoDTO entityToDTO(Todo todo) { // 디펄트 메서음로 선언했기 때문에 굳이 override를 할 필요가 없
 
         return TodoDTO.builder()
                 .tno(todo.getTno())
