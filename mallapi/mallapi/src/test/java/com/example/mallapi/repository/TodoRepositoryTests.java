@@ -95,8 +95,10 @@ public class TodoRepositoryTests {
         log.info(result.getContent()); // 선택한 필드 모든 데이터를 보여줌
     }
 
-    @Test
-    public void testSearch1() {
-        todoRepository.search1();
-    }
+//    @Test
+//    public void testSearch1() {
+//        todoRepository.search1();
+//    }
+
+
 }

@@ -1,6 +1,8 @@
 package com.example.mallapi.service;
 
 import com.example.mallapi.domain.Todo;
+import com.example.mallapi.dto.PageRequestDTO;
+import com.example.mallapi.dto.PageResponseDTO;
 import com.example.mallapi.dto.TodoDTO;
 import jakarta.transaction.Transactional;
 
@@ -14,8 +16,11 @@ public interface TodoService {
 
     void remove(Long tno);
 
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
+
     // 자바 8 이상의 default 메서드를 통해 엔터페이스에 로직을 선언
-    default TodoDTO entityToDTO(Todo todo) { // 디펄트 메서음로 선언했기 때문에 굳이 override를 할 필요가 없
+    // 엔티티를 DTO로 변경하는 메서드
+    default TodoDTO entityToDTO(Todo todo) { // 디펄트 메서음로 선언했기 때문에 굳이 override를 할 필요가 없음
 
         return TodoDTO.builder()
                 .tno(todo.getTno())

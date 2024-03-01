@@ -1,5 +1,6 @@
 package com.example.mallapi.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public class PageResponseDTO<E> {
 
     private int totalCount, prevPage, nextPage, totalPage, current;
 
-    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
+    @Builder(builderMethodName = "withAll") // 빌더 패턴을 사용하는데 빌터 패턴에 메서드 이름을 명시
+    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) { // 받는 생성자를 엔티티와 DTO 총 페이지 수를 받도록 설정
+
         this.dtoList = dtoList;
         this.pageRequestDTO = pageRequestDTO;
         this.totalCount = (int) total;
