@@ -5,6 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
+import ReadComponent from '../../components/todo/ReadComponent';
 
 const ReadPage = () => {
   const navigate = useNavigate(); // 원하는 동작이 들어왔을 때 라우팅을 하기 위하여 useNavigate를 사용
@@ -28,12 +29,10 @@ const ReadPage = () => {
   };
 
   return (
-    <div className="test-3xl">
-      Todo Read Page {tno}
-      <div>
-        <button onClick={() => moveToModify(tno)}>Test Modify</button>
-        <button onClick={() => moveToList}>Test Modify</button>
-      </div>
+    <div className="font-extrabold w-full bg-white mt-6">
+      <div className="test-2xl">Todo Read Page Component {tno}</div>
+
+      <ReadComponent tno={tno} />
     </div>
   );
 };
