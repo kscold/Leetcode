@@ -25,7 +25,7 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
         QTodo todo = QTodo.todo; // todo에 관련된 객체
         JPQLQuery<Todo> query = from(todo); // todo엔티티를 가지고 쿼리를 사용하게 됨(JPQL 쿼리로 변환함)
 
-        query.where(todo.title.contains("1")); // title에 문자열에 1을 포함하는 타이틀을 찾는 쿼리
+//        query.where(todo.title.contains("1")); // title에 문자열에 1을 포함하는 타이틀을 찾는 쿼리
 
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,
