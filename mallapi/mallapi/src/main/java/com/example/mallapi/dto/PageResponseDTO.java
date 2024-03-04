@@ -63,13 +63,13 @@ public class PageResponseDTO<E> {
         this.prev = start > 1;
 
 
-        this.next = totalCount > end * pageRequestDTO.getSize();
+        this.next = totalCount < end * pageRequestDTO.getSize();
 
         this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
 
         this.prevPage = prev ? start - 1 : 0; // 2 페이징 이상이면, 하나 전 페이징으로 감소 이하면 0 페이지으로 설정
-        this.nextPage = next ? 0 : end + 1; // 2 페이징 이상히면, 앞의 페이징으로 증가 이하면 0 페이지로 설정
+        this.nextPage = next ? end + 1 : 0; // 2 페이징 이상히면, 앞의 페이징으로 증가 이하면 0 페이지로 설정
       /*  this.prevPage = current - 1; // 이전 페이징 번호 설정
         this.nextPage = current + 1;// 다음 페이징 번호 설정*/
 
