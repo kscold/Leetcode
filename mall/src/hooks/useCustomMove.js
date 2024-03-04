@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   createSearchParams,
   useNavigate,
@@ -14,6 +15,8 @@ const getNum = (param, defaultValue) => {
 
 const useCustomMove = () => {
   const navigate = useNavigate();
+
+  const [refresh, setRefresh] = useState(false);
 
   const [queryParams] = useSearchParams(); // 쿼리스트링
 
@@ -38,10 +41,19 @@ const useCustomMove = () => {
       queryStr = queryDefault;
     }
 
+    setRefresh(!refresh); // 페이징 새로고침을 위한 상태 토클
+
     navigate({ pathname: '../list', search: queryStr }); // url를 /todo/read에서 /todo/list로 바꾸고, 뒤에 ?page=3&size=10를 추가
   };
 
-  return { moveToList }; // 객체 스타일로 반환
+  const moveToModify = (num) => {
+    navigate({
+      pathname: `../modify/${num}`,
+      search: queryDefault,
+    });
+  };
+
+  return { moveToList, moveToModify, page, size, refresh }; // 객체 스타일로 반환
 };
 
 export default useCustomMove;

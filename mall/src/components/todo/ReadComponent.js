@@ -24,7 +24,7 @@ const initState = {
 const ReadComponent = ({ tno }) => {
   const [todo, setTodo] = useState(initState);
 
-  const { moveToList } = useCustomMove(); // 쿼리스트링 커스텀 훅 비구조화 할당을 함
+  const { moveToList, moveToModify } = useCustomMove(); // 라우팅과 관련된 커스텀 훅 비구조화 할당을 함
 
   useEffect(() => {
     getOne(tno).then((data) => {
@@ -48,6 +48,14 @@ const ReadComponent = ({ tno }) => {
           onClick={() => moveToList()}
         >
           List
+        </button>
+
+        <button
+          type="mbutton"
+          className="rounded p-4 m-2 text-xl w-32 text-white bg-red-500"
+          onClick={() => moveToModify(todo.tno)}
+        >
+          Modify
         </button>
       </div>
     </div>
