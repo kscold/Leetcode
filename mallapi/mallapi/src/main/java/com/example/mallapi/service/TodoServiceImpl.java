@@ -71,6 +71,8 @@ public class TodoServiceImpl implements TodoService {
                 .map(todo -> entityToDTO(todo)) // 객체들을 뿌리면서 엔티티를 DTO로 변환
                 .collect(Collectors.toList()); // DTO를 리스트로 반듬
 
+        log.info(result);
+
         PageResponseDTO<TodoDTO> responseDTO =
                 PageResponseDTO.<TodoDTO>withAll()
                         .dtoList(dtoList) // Page 리스트 객체 dto에 대입
@@ -78,6 +80,7 @@ public class TodoServiceImpl implements TodoService {
                         .total(result.getTotalElements()) // 문자열 1을 포함한 데이터를 찾아주는 쿼리의 갯수를 dto에 대입
                         .build(); // 결과적으로 PageResponseDTO 객체가 완성
 
+        log.info(responseDTO);
         return responseDTO; // PageResponseDTO 객체를 반환
     }
 }
