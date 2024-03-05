@@ -18,3 +18,10 @@ export const getList = async (pageParams) => {
 
   return res.data;
 };
+
+export const postAdd = async (todoObj) => {
+  // 만약 axios라이브러리를 이용하지 않고 fetch함수를 이용했다면 JSON.stringify(obj)를 사용하여 문자열을 JSON 형식으로 변환했어야 했음
+  const res = await axios.post(`${prefix}/`, todoObj);
+
+  return res.data;
+};
