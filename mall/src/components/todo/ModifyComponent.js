@@ -20,6 +20,7 @@ const ModifyComponent = ({ tno }) => {
   const { moveToRead, moveToList } = useCustomMove();
 
   useEffect(() => {
+    // 처음 렌더링 시, 하나의 리스트 데이터를 가져오는데 tno가 바뀌었으면 리렌더링 즉 삭제,
     getOne(tno).then((data) => {
       console.log(data);
       setTodo(data);
@@ -43,16 +44,16 @@ const ModifyComponent = ({ tno }) => {
     setTodo({ ...todo });
   };
 
-  const handelClickDelete = () => {
+  const handleClickDelete = () => {
     deleteOne(tno).then((data) => {
-      console.log('delete result: ' + data); // {RESULT: SUCCESS}
+      console.log('delete result: ' + JSON.stringify(data)); // {RESULT: SUCCESS}
       setResult('Deleted');
     });
   };
 
-  const handelClickModify = () => {
+  const handleClickModify = () => {
     putOne(todo).then((data) => {
-      console.log('modify result: ' + data); // {RESULT: SUCCESS}
+      console.log('modify result: ' + JSON.stringify(data)); // {RESULT: SUCCESS}
       setResult('Modified');
     });
   };
@@ -125,14 +126,14 @@ const ModifyComponent = ({ tno }) => {
         <button
           type="button"
           className="inline-block rounded p-4 m-2 text-xl w-32 text-white bg-red-500"
-          onClick={handelClickDelete}
+          onClick={handleClickDelete}
         >
           Delete
         </button>
         <button
           type="button"
           className="rounded p-4 m-2 text-xl w-32 text-white bg-blue-500"
-          onClick={handelClickModify}
+          onClick={handleClickModify}
         >
           Modify
         </button>

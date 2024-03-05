@@ -46,6 +46,7 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = result.orElseThrow();
 
         // change 메서드들은 사실 setter임
+        todo.changeTitle(dto.getTitle());
         todo.changeContent(dto.getContent());
         todo.changeComplete(dto.isComplete()); // boolean 값이기 때문에 isComplete()로 생성됨
         todo.changeDueDate(dto.getDueDate());
