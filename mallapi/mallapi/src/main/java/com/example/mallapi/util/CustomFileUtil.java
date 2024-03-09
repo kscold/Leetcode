@@ -3,6 +3,7 @@ package com.example.mallapi.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,11 +49,20 @@ public class CustomFileUtil {
         for (MultipartFile file : files) {
             String savedName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); // 원래 파일이름에 UUID을 _로 겹처서 savedName을 생성함
 
-            Path savePath = Paths.get(uploadPath, savedName); // savedName한 파일의 패스를 추출
+            Path savePath = Paths.get(uploadPath, savedName); // savedName(이름을 바꾼) 파일의 패스를 추출
 
             try {
-                Files.copy(file.getInputStream(), savePath);
+                Files.copy(file.getInputStream(), savePath); // 원본 파일 업로드
                 // 파일이 복사될 대상 경로인 savePath를 MultipartFile 객체인 file의 내용을 읽어오기 위한 InputStream을 반환 후 savePath를 복사함
+
+                String contentType = file.getContentType(); // file의 타입을 String에 담아줌
+
+                if (contentType != null || contentType.startsWith("images")) { // 만약 contentType에 값이 있고 images로 문자열이 시작한다면
+                    Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName); // 이름을 바꿔서 추출
+
+                    Thumbnails.of(savePath.toFile()).size(200, 200).toFile(thumbnailPath.toFile()); // 썸네일을 생성
+                }
+
                 uploadNames.add(savedName); // saveName으로 설정한 파일 이름을 uploadName 리스트에 추가
             } catch (IOException e) {
                 throw new RuntimeException(e);

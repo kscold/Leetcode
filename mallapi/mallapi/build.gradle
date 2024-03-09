@@ -43,6 +43,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'net.coobird:thumbnailator:0.4.19' // 작은 크기 이미지인 썸네일을 만들기 위해 의존성 추가
+
     // queryDSL 설정
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 
