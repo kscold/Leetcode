@@ -13,7 +13,15 @@ spring: # 데이터베이스 설정 h2 의존성이 없으므로 이 설정 없�
         format_sql: true # sql문을 포맷팅해서 보여줌
     show-sql: true # sql문이 실행되는 것을 눈으로 보여줌
 
+  servlet:
+    multipart:
+      max-request-size: 30MB # 요청 파일 최대 크기제한
+      max-file-size: 10MB # 파일 최대 크기제한
 
+com:
+  example:
+    upload:
+      path: upload
 
 logging:
   level:
