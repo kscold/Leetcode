@@ -28,3 +28,4 @@ public class ProductDTO {
     private List<String> uploadedFileNames = new ArrayList<>();
 
 }
+
