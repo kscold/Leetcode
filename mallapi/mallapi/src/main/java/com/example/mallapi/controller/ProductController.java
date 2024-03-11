@@ -1,4 +1,4 @@
-package com.example.mallapi.domain.controller;
+package com.example.mallapi.controller;
 
 import com.example.mallapi.dto.ProductDTO;
 import com.example.mallapi.util.CustomFileUtil;
