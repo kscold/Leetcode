@@ -1,6 +1,7 @@
 package com.example.mallapi.repository;
 
 import com.example.mallapi.domain.Product;
+import com.example.mallapi.dto.PageRequestDTO;
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -94,5 +95,12 @@ public class ProductRepositoryTests {
 
         result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
 
+    }
+
+    @Test
+    public void testSearch() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        productRepository.seacrhList(pageRequestDTO);
     }
 }

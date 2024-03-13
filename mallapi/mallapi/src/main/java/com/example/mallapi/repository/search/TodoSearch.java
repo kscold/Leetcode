@@ -1,4 +1,4 @@
-package com.example.mallapi.service.search;
+package com.example.mallapi.repository.search;
 
 import com.example.mallapi.domain.Todo;
 import com.example.mallapi.dto.PageRequestDTO;
