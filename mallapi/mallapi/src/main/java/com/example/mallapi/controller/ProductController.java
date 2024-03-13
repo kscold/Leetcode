@@ -29,7 +29,7 @@ public class ProductController {
 
         List<String> uploadedFileNames = fileUtil.saveFiles(files); // 파일 리스트를 정의한 saveFiles 메서드를 통해 저장
 
-        productDTO.setUploadedFileNames(uploadedFileNames); // 파일을 업로드함
+        productDTO.setUploadFileNames(uploadedFileNames); // 파일을 업로드함
 
         log.info(uploadedFileNames);
 
