@@ -1,4 +1,4 @@
-package com.example.mallapi.domain.controller.formatter;
+package com.example.mallapi.controller.formatter;
 
 import org.springframework.format.Formatter;
 

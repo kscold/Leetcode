@@ -1,4 +1,4 @@
-package com.example.mallapi.domain.controller.advice;
+package com.example.mallapi.controller.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -16,6 +16,7 @@ const ResultModal = ({ title, content, callbackFn }) => {
             className="rounded bg-blue-500 mt-4 mb-4 px-6 pt-4 pb-4 text-lg text-white"
             onClick={() => {
               if (callbackFn) {
+                // closeModal 함수가 들어왔으면 closeModal 함수를 실행
                 callbackFn();
               }
             }}
