@@ -45,9 +45,9 @@ public class Product {
         this.delFlag = delFlag;
     }
 
-    public void addImage(ProductImage image) {
-        image.setOrd(imageList.size()); // imageList의 갯수만큼 image 번호 설정
-        imageList.add(image); // imageList에 image 엔티티 추가
+    public void addImage(ProductImage image) { // ProductImage 엔티티를 추가
+        image.setOrd(imageList.size()); // imageList의 크기만큼 image 번호 설정
+        imageList.add(image); // ProductImage 엔티티 리스트에 ProductImage 엔티티 추가
     }
 
     public void addImageString(String fileName) { // 이미지 파일 이름을 설정하는 메서드

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,6 +76,72 @@ public class ProductServiceImpl implements ProductService {
 
         return pno;
     }
+
+    @Override
+    public ProductDTO get(Long pno) { //
+
+        Optional<Product> result = productRepository.findById(pno);
+
+        Product product = result.orElseThrow();
+
+        return entityToDTO(product);
+    }
+
+    @Override
+    public void modify(ProductDTO productDTO) {
+        // 조회
+        Optional<Product> result = productRepository.findById(productDTO.getPno());
+
+        Product product = result.orElseThrow();
+        // 변경 내용 반영
+        product.changePrice(productDTO.getPrice());
+        product.changeName(product.getPname());
+        product.changeDesc(product.getPdesc());
+        product.changeDel(productDTO.isDelFlag());
+
+        // 이미지 처리
+        List<String> uploadFileNames = productDTO.getUploadFileNames();
+        // 어떤 이미지가 들어있는지 확인할 수 없음
+
+        // 따라서 일단 이미지 데이터를 모두 삭제
+        product.clearList();
+
+        if (uploadFileNames != null && !uploadFileNames.isEmpty()) {
+            // uploadFileNames이 null이 아니고 비어있지 않으면
+            uploadFileNames.forEach(uploadFileName ->{
+                product.addImageString(uploadFileName);
+            });
+
+        }
+
+        // 저장
+        productRepository.save(product);
+
+    }
+
+    private ProductDTO entityToDTO(Product product) { // 엔티티를 다시 DTO로 바꾸는 메서드
+        ProductDTO productDTO = ProductDTO.builder()
+                .pno(product.getPno())
+                .pname(product.getPname())
+                .pdesc(product.getPdesc())
+                .price(product.getPrice())
+                .delFlag(product.isDelFlag())
+                .build();
+
+        List<ProductImage> imageList = product.getImageList();
+
+        if (imageList == null || imageList.size() == 0) {
+            return productDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(productImage ->
+                productImage.getFileName()).toList(); // 문자열로 변경
+
+        productDTO.setUploadFileNames(fileNameList); // 업로드할 파일이름을 변경
+
+        return productDTO;
+    }
+
 
     private Product dtoToEntity(ProductDTO productDTO) {
         Product product = Product.builder()
