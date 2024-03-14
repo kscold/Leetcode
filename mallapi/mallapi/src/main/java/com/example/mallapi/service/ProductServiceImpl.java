@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (uploadFileNames != null && !uploadFileNames.isEmpty()) {
             // uploadFileNames이 null이 아니고 비어있지 않으면
-            uploadFileNames.forEach(uploadFileName ->{
+            uploadFileNames.forEach(uploadFileName -> {
                 product.addImageString(uploadFileName);
             });
 
@@ -117,6 +117,12 @@ public class ProductServiceImpl implements ProductService {
         // 저장
         productRepository.save(product);
 
+    }
+
+    @Override
+    public void remove(Long pno) {
+        // 원래 대형 서비스라면 삭제 로직은 존재하지 않고 flag 값만 수정하는 것이 다임
+        productRepository.deleteById(pno);
     }
 
     private ProductDTO entityToDTO(Product product) { // 엔티티를 다시 DTO로 바꾸는 메서드
