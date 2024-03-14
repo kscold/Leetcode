@@ -1,6 +1,9 @@
 package com.example.mallapi.controller;
 
+import com.example.mallapi.dto.PageRequestDTO;
+import com.example.mallapi.dto.PageResponseDTO;
 import com.example.mallapi.dto.ProductDTO;
+import com.example.mallapi.service.ProductService;
 import com.example.mallapi.util.CustomFileUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,8 @@ public class ProductController {
 
     private final CustomFileUtil fileUtil; // 파일 업로드 부분을 연동
 
+    private final ProductService productService;
+
     @PostMapping("/")
     public Map<String, String> register(ProductDTO productDTO) { // /api/products 주소에 POST 메서드로 productDTO가 주어지면
         log.info("register: " + productDTO);
@@ -40,5 +45,10 @@ public class ProductController {
     @GetMapping("/view/{fileName}") // GET으로 업로드된 파일을 볼 때
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
         return fileUtil.getFile(fileName);
+    }
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+        return productService.getList(pageRequestDTO);
     }
 }
