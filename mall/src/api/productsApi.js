@@ -10,3 +10,14 @@ export const postAdd = async (product) => {
 
   return res.data;
 };
+
+export const getList = async (pageParam) => {
+  const { page, size } = pageParam; // 들어온 객체를 비구조화 할당
+
+  const res = await axios.get(`${host}/list`, {
+    // get 요청의 쿼리스트링을 설정
+    params: { page: page, size: size },
+  });
+
+  return res.data;
+};

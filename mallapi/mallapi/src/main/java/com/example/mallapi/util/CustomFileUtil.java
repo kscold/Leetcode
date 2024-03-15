@@ -76,7 +76,7 @@ public class CustomFileUtil {
     }
 
     public ResponseEntity<Resource> getFile(String fileName) {
-        Resource resource = new FileSystemResource(uploadPath + File.separator + fileName + ".jpeg");
+        Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
 
         if (!resource.isReadable()) { // 만약 파일이름이 정상적이지 않으면
             resource = new FileSystemResource(uploadPath + File.separator + "default.jpeg"); // 기본이미지를 보여줌
