@@ -65,6 +65,13 @@ public class ProductController {
 
         Long pno = productService.register(productDTO);
 
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return Map.of("result", pno);
     }
 

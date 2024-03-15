@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { postAdd } from '../../api/productsApi';
+import FetchingModal from '../common/FetchingModal';
+import ResultModal from '../common/ResultModal';
+import useCustomMove from '../../hooks/useCustomMove';
 
 const initState = {
   pname: '',
@@ -14,6 +17,11 @@ const AddComponent = () => {
   const [product, setProduct] = useState(initState);
 
   const uploadRef = useRef(); // 고유하게 엘리먼트를 식별하기 위해 사용
+
+  const [fecthing, setFecthing] = useState(false);
+  const [result, setResult] = useState(false);
+
+  const { moveToList } = useCustomMove();
 
   // multipart/form-data FormData()
 
@@ -39,7 +47,18 @@ const AddComponent = () => {
 
     console.log(formData);
 
-    postAdd(formData);
+    setFecthing(true); // 데이터를 전송하면 true
+
+    postAdd(formData).then((data) => {
+      // 데이터 전송이 끝나면 false
+      setFecthing(false);
+      setResult(data.result);
+    });
+  };
+
+  const closeModal = () => {
+    setResult(null);
+    moveToList({ page: 1 });
   };
 
   return (
@@ -108,6 +127,18 @@ const AddComponent = () => {
           </button>
         </div>
       </div>
+      {
+        fecthing ? <FetchingModal /> : <></> // fecthing이 true면 모달을 띄움
+      }
+      {result ? (
+        <ResultModal
+          callbackFn={closeModal}
+          title="Product Add Result"
+          content={`${result}번 상품 등록 완료`}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
