@@ -27,3 +27,16 @@ export const getOne = async (pno) => {
 
   return res.data;
 };
+
+export const deleteOne = async (pno) => {
+  const res = await axios.delete(`${host}/${pno}`);
+
+  return res.data;
+};
+
+export const putOne = async (pno, product) => {
+  const header = { headers: { 'Content-Type': 'multipart/form-data' } }; // axios 헤더 설정 파일 멀티파트로 설정
+  const res = await axios.put(`${host}/${pno}`, product, header);
+
+  return res.data;
+};
