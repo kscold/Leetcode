@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getOne } from '../../api/productsApi';
+import { deleteOne, getOne, putOne } from '../../api/productsApi';
 import FetchingModal from '../common/FetchingModal';
 import { API_SERVER_HOST } from '../../api/todoApi';
+import useCustomMove from '../../hooks/useCustomMove';
+import ResultModal from '../common/ResultModal';
 
 const initState = {
   pno: 0,
@@ -17,6 +19,10 @@ const host = API_SERVER_HOST;
 const ModifyComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
   const [fetching, setFetching] = useState(false);
+
+  const [result, setResult] = useState('');
+
+  const { moveToList, moveToRead } = useCustomMove();
 
   const uploadRef = useRef();
 
@@ -44,9 +50,74 @@ const ModifyComponent = ({ pno }) => {
     setProduct({ ...product });
   };
 
+  const handleClickModify = () => {
+    const files = uploadRef.current.files;
+
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append('files', files[i]); // input의 name 속성과 value 속성
+    }
+
+    formData.append('pname', product.pname);
+    formData.append('pdesc', product.pdesc);
+    formData.append('price', product.price);
+    formData.append('delFlag', product.delFlag);
+
+    for (let i = 0; i < product.uploadFileNames.length; i++) {
+      formData.append('uploadFileNames', product.uploadFileNames[i]);
+    }
+
+    setFetching(true);
+
+    putOne(pno, formData).then((data) => {
+      setResult('Modified');
+      setFetching(false);
+    });
+  };
+
+  const handleClickDelete = () => {
+    setFetching(true);
+
+    deleteOne(pno).then((data) => {
+      setResult('Deleted');
+      setFetching(false);
+    });
+  };
+
+  const closeModal = () => {
+    if (result === 'Modified') {
+      moveToRead(pno);
+    } else if (result == 'Deleted') {
+      // 만약 Deleted가 되었다면
+      moveToList({ Page: 1 }); // 1페이지로 이동
+    }
+    setResult(null);
+  };
+
   return (
     <div className="border-2 border-sky-200 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
+
+      {result === 'Modified' ? (
+        <ResultModal
+          title={`${result}`}
+          content={'처리되었습니다.'}
+          callbackFn={closeModal}
+        ></ResultModal>
+      ) : (
+        <></>
+      )}
+
+      {result === 'Deleted' ? (
+        <ResultModal
+          title={`${result}`}
+          content={'삭제되었습니다.'}
+          callbackFn={closeModal}
+        ></ResultModal>
+      ) : (
+        <></>
+      )}
 
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -78,7 +149,7 @@ const ModifyComponent = ({ pno }) => {
 
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">Product Name</div>
+          <div className="w-1/5 p-6 text-right font-bold">Price</div>
           <input
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
             name="price"
@@ -136,6 +207,32 @@ const ModifyComponent = ({ pno }) => {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-end p-4">
+        <button
+          type="button"
+          className="rounded p-4 m-2 text-xl w-32 text-white bg-red-500"
+          onClick={handleClickDelete}
+        >
+          Delete
+        </button>
+
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 text-xl w-32 text-white bg-orange-500"
+          onClick={handleClickModify}
+        >
+          Modify
+        </button>
+
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 text-xl w-32 text-white bg-blue-500"
+          onClick={() => moveToList()} // 이벤트 없이 호출하기 위해
+        >
+          List
+        </button>
       </div>
     </div>
   );
