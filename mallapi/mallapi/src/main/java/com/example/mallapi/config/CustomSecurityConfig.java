@@ -29,6 +29,10 @@ public class CustomSecurityConfig { // 스프링 시큐리티를 위한 config
 
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()); // csrf 설정을 비활성화
 
+        http.formLogin(config -> {
+            config.loginPage("/api/member/login"); // 로그인할 페이지
+        });
+
         return http.build();
     }
 
