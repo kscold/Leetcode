@@ -95,8 +95,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = result.orElseThrow();
         // 변경 내용 반영
         product.changePrice(productDTO.getPrice());
-        product.changeName(product.getPname());
-        product.changeDesc(product.getPdesc());
+        product.changeName(productDTO.getPname());
+        product.changeDesc(productDTO.getPdesc());
         product.changeDel(productDTO.isDelFlag());
 
         // 이미지 처리
