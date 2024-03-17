@@ -21,12 +21,13 @@ public class CustomServletConfig implements WebMvcConfigurer {
         registry.addFormatter(new LocalDateFormatter());
     }
 
-    @Override
+    // 스프링 시큐리티를 추가하면서 CORS 설정 부분을 시큐리티쪽에 설정을 함
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         // CORS 설정을 하기 위해 메서드 추가
         registry.addMapping("/**") // 모든 패스에서 설정
                 .maxAge(500) // 최대 시간 설정
                 .allowedMethods("GET","POST","PUT","DELETE","HEAD","OPTION") // 허용할 메서드 설정, OPTION으로 preflight 허용을 설정함
                 .allowedOrigins("*"); // 허락할 리소스를 모두로 설정
-    }
+    }*/
 }

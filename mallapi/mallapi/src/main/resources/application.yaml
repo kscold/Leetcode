@@ -32,3 +32,6 @@ logging:
         orm:
           jdbc:
             bind: trace
+      springframework: # 스프링 시큐리티 로깅 레벨 설정
+        security:
+          web: trace
