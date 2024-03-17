@@ -4,10 +4,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@ToString(exclude = "memberRoleList") // JOIN 되기 때문에 제외로 설정
 public class Member {
 
     @Id
@@ -36,7 +34,7 @@ public class Member {
         memberRoleList.add(memberRole);
     }
 
-    public void clearRole() {
+    public void clearRole() { // 리스트 삭제
         memberRoleList.clear();
     }
 
