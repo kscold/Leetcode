@@ -1,6 +1,7 @@
 package com.example.mallapi.security.handler;
 
 import com.example.mallapi.dto.MemberDTO;
+import com.example.mallapi.util.JWTUtil;
 import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,8 +27,11 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Map<String, Object> claims = memberDTO.getClaims();
 
-        claims.put("accessToken", "");
-        claims.put("refreshToken", "");
+        String accessToken = JWTUtil.generateToken(claims, 10); // accessToken을 10분을 줌
+        String refreshToken = JWTUtil.generateToken(claims, 60 * 24); // 24시간을 줌
+
+        claims.put("accessToken", accessToken);
+        claims.put("refreshToken", refreshToken);
 
         Gson gson = new Gson();
         String jsonStr = gson.toJson(claims);
