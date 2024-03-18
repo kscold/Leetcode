@@ -32,15 +32,16 @@ public class JWTUtil {
     }
 
     public static Map<String, Object> validateToken(String token) {
+
         Map<String, Object> claim = null;
 
         try {
-            SecretKey key = Keys.hmacShaKeyFor(JWTUtil.key.getBytes("UTF-8"));
+            SecretKey key = Keys.hmacShaKeyFor(JWTUtil.key.getBytes("UTF-8")); // SecretKey 생성하는데 HMAC 알고리즘을 사용
 
             claim = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJwt(token)
+                    .parseClaimsJws(token)
                     .getBody();
 
         } catch (MalformedJwtException malformedJwtException) {

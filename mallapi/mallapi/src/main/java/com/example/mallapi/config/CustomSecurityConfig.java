@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 @Configuration
 @Log4j2
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class CustomSecurityConfig { // 스프링 시큐리티를 위한 config
     @Bean // 스프링 부트 3버전 부터는 SecurityFilterChain 인터페이스를 형식으로 Bean으로 등록을 함
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,7 +47,7 @@ public class CustomSecurityConfig { // 스프링 시큐리티를 위한 config
             config.failureHandler(new APILoginFailHandler()); // 실패했을 때 핸들러 호출
         });
 
-        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class); // 이 필터가 동작하기 전에 동작
 
         return http.build();
     }
