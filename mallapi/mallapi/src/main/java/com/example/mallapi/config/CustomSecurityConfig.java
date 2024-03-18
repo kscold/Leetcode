@@ -1,10 +1,13 @@
 package com.example.mallapi.config;
 
+import com.example.mallapi.security.handler.APILoginFailHandler;
+import com.example.mallapi.security.handler.APILoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,11 +30,19 @@ public class CustomSecurityConfig { // 스프링 시큐리티를 위한 config
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
         });
 
+        http.sessionManagement(httpSecuritySessionManagementConfigurer -> {
+            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.NEVER);
+            // 세션을 만들지 않도록 설정
+        });
+
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()); // csrf 설정을 비활성화
 
         http.formLogin(config -> {
             config.loginPage("/api/member/login"); // 로그인할 페이지
+            config.successHandler(new APILoginSuccessHandler()); // 성공했을 때 핸들러 호출
+            config.failureHandler(new APILoginFailHandler()); // 실패했을 때 핸들러 호출
         });
+
 
         return http.build();
     }
